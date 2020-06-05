@@ -10,16 +10,17 @@ class RecentMovies extends StatefulWidget {
 
 class _RecentMoviesState extends State<RecentMovies> {
   void initState() {
-    Future.delayed(Duration.zero, () async {
-      final bloc = MoviesProvider.of(context);
-      bloc.recentMovie();
-    });
+//    Future.delayed(Duration.zero, () async {
+//      final bloc = MoviesProvider.of(context);
+//      bloc.recentMovie();
+//    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final bloc = MoviesProvider.of(context);
+    bloc.recentMovie();
 
     return StreamBuilder(
         stream: bloc.rMovies,

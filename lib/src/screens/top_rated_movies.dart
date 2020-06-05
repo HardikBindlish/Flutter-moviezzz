@@ -10,10 +10,10 @@ class TopRatedMovies extends StatefulWidget {
 
 class _TopMoviesState extends State<TopRatedMovies> {
   void initState() {
-    Future.delayed(Duration.zero, () async {
-      final bloc = MoviesProvider.of(context);
-      bloc.topMovie();
-    });
+//    Future.delayed(Duration.zero, () async {
+//      final bloc = MoviesProvider.of(context);
+//      bloc.topMovie();
+//    });
     super.initState();
   }
 
