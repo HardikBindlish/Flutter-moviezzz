@@ -16,8 +16,8 @@ class MoviesBloc {
 
   Stream<List<Genre>> get genre => _genres.stream;
 
-  recentMovie() async {
-    List<Movie> rmovie = await _repository.fetchRMovies();
+  recentMovie(data) async {
+    List<Movie> rmovie = await _repository.fetchRMovies(data);
     _rmovies.sink.add(rmovie);
     title = 'Movie';
   }

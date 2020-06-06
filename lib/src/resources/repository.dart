@@ -4,8 +4,8 @@ import 'package:moviezzz/src/models/item_model.dart';
 class Repository{
   ApiProvider apiProvider = ApiProvider();
 
-  Future<List<Movie>> fetchRMovies() async{
-    return apiProvider.fetchRecentMovies();
+  Future<List<Movie>> fetchRMovies(data) async{
+    return apiProvider.fetchRecentMovies(data);
   }
 
   Future<List<Movie>> fetchTMovies() async{

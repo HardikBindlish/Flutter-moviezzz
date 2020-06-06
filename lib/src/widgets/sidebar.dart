@@ -11,6 +11,7 @@ class NavDrawer extends StatefulWidget {
 
 class NavDrawerState extends State<NavDrawer> {
   ScrollController _scrollController;
+  int genre;
 
   onListExpansionChanged(bool expanded) {
     //returns if it was expanded (true) or collapsed (false)
@@ -31,9 +32,11 @@ class NavDrawerState extends State<NavDrawer> {
   }
 
   fetchMovies() {
+    var data = {'type':'M','genre':genre};
+
     Future.delayed(Duration.zero, () async {
       final bloc = MoviesProvider.of(context);
-      bloc.recentMovie();
+      bloc.recentMovie(data);
     });
 
     Future.delayed(Duration.zero, () async {
@@ -150,12 +153,20 @@ class NavDrawerState extends State<NavDrawer> {
                         shrinkWrap: true,
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Card(
-                            child: Container(
-                              height: 30,
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 10),
-                              child: Text(snapshot.data[index].genre),
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                genre = index + 1;
+                              });
+                              fetchMovies();
+                            },
+                            child: Card(
+                              child: Container(
+                                height: 30,
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                child: Text(snapshot.data[index].genre),
+                              ),
                             ),
                           );
                         })
