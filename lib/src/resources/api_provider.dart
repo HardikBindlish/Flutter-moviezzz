@@ -7,24 +7,13 @@ class ApiProvider{
   Client client = Client();
 
   Future<List<Movie>> fetchRecentMovies(Map data) async{
-    var request;
+    var response;
 
     if(data['genre'] == null){
-      request = Uri.parse("http://harsh4861.pythonanywhere.com/api/fetch")
-          .resolveUri(Uri(queryParameters: {
-        "type": data['type'],
-      }));
+      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}');
     } else {
-      request = Uri.parse("http://harsh4861.pythonanywhere.com/api/fetch")
-          .resolveUri(Uri(queryParameters: {
-        "type": data['type'],
-        "genre": data['genre'].toString(),
-      }));
+      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}&genre=${data['genre']}');
     }
-    final response = await client.get(request);
-
-
-    print(request);
 
     if(response.statusCode == 200){
       final data = json.decode(response.body);
