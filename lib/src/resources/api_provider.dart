@@ -6,7 +6,7 @@ import 'package:moviezzz/src/models/item_model.dart';
 class ApiProvider{
   Client client = Client();
 
-  Future<List<Movie>> fetchRecentMovies(Map data) async{
+  Future<List<Movie>> fetchRecentData(Map data) async{
     var response;
 
     if(data['genre'] == null){
@@ -14,7 +14,7 @@ class ApiProvider{
     } else {
       response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}&genre=${data['genre']}');
     }
-
+    print(response);
     if(response.statusCode == 200){
       final data = json.decode(response.body);
       List<Movie> recent = Movies.fromJson(data).recent;
@@ -25,32 +25,14 @@ class ApiProvider{
     }
   }
 
-  Future<List<Movie>> fetchTopRatedMovies() async{
-    final response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch/?type=M');
-    if(response.statusCode == 200){
-      final data = json.decode(response.body);
-      List<Movie> topRated = Movies.fromJson(data).topRated;
-      return topRated;
-    }
-    else{
-      throw Exception('Falied to get movies list');
-    }
-  }
+  Future<List<Movie>> fetchTopRatedData(Map data) async{
+    var response;
 
-  Future<List<Movie>> fetchRecentSeasons() async{
-    final response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch/?type=S');
-    if(response.statusCode == 200){
-      final data = json.decode(response.body);
-      List<Movie> recent = Movies.fromJson(data).recent;
-      return recent;
+     if(data['genre'] == null){
+      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}');
+    } else {
+      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}&genre=${data['genre']}');
     }
-    else{
-      throw Exception('Falied to get movies list');
-    }
-  }
-
-  Future<List<Movie>> fetchTopRatedSeasons() async{
-    final response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch/?type=S');
     if(response.statusCode == 200){
       final data = json.decode(response.body);
       List<Movie> topRated = Movies.fromJson(data).topRated;
@@ -75,12 +57,13 @@ class ApiProvider{
     }
   }
 
-  Future<List<Movie>> fetchGenreViseMovies(int id) async{
-    final response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch/?type=M&genre=$id');
+  Future<List<Movie>> searchMovies() async{
+    final response = await client.get('http://harsh4861.pythonanywhere.com/api/search');
     if(response.statusCode == 200){
       final data = json.decode(response.body);
-      List<Movie> recent = Movies.fromJson(data).recent;
-      return recent;
+      List<Movie> search = List<Movie>();
+      data.forEach((movie) => {search.add(Movie.fromJson(movie))});
+      return search;
     }
     else{
       throw Exception('Falied to get movies list');

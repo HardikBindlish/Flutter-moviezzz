@@ -7,35 +7,21 @@ class MoviesBloc {
   final _rmovies = BehaviorSubject<List<Movie>>();
   final _tmovies = BehaviorSubject<List<Movie>>();
   final _genres = BehaviorSubject<List<Genre>>();
-  String title = '';
+  final _search = BehaviorSubject<List<Movie>>();
 
   Stream<List<Movie>> get rMovies => _rmovies.stream;
-
   Stream<List<Movie>> get tMovies => _tmovies.stream;
-
-
   Stream<List<Genre>> get genre => _genres.stream;
+  Stream<List<Movie>> get sMovies => _search.stream;
 
-  recentMovie(data) async {
-    List<Movie> rmovie = await _repository.fetchRMovies(data);
+  recentData(data) async {
+    List<Movie> rmovie = await _repository.fetchRData(data);
     _rmovies.sink.add(rmovie);
-    title = 'Movie';
   }
 
-  topMovie() async {
-    List<Movie> tmovie = await _repository.fetchTMovies();
+  topData(data) async {
+    List<Movie> tmovie = await _repository.fetchTData(data);
     _tmovies.sink.add(tmovie);
-  }
-
-  recentSeason() async {
-    List<Movie> rseason = await _repository.fetchRSeasons();
-    _rmovies.sink.add(rseason);
-    title = 'Season';
-  }
-
-  topSeason() async {
-    List<Movie> tseason = await _repository.fetchTSeasons();
-    _tmovies.sink.add(tseason);
   }
 
   allGenre() async {
@@ -43,9 +29,15 @@ class MoviesBloc {
     _genres.sink.add(tseason);
   }
 
+  searchdata() async {
+    List<Movie> smovie = await _repository.search();
+    _search.sink.add(smovie);
+  }
+
   dispose() {
     _rmovies.close();
     _tmovies.close();
     _genres.close();
+    _search.close();
   }
 }

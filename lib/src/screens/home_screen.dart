@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:moviezzz/src/Bloc/moviesprovider.dart';
 import 'package:moviezzz/src/screens/recent_movies.dart';
 import 'package:moviezzz/src/screens/top_rated_movies.dart';
+import 'package:moviezzz/src/widgets/moviesearch.dart';
 import 'package:moviezzz/src/widgets/sidebar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,8 +12,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      final bloc = MoviesProvider.of(context);
+      bloc.searchdata();
+    });
+    super.initState();
+  } 
+
   Widget build(context) {
+    final bloc = MoviesProvider.of(context);
     return Scaffold(
       drawer: NavDrawer(),
       appBar: AppBar(
@@ -38,7 +49,9 @@ class HomeScreenState extends State<HomeScreen> {
           actions: [
             IconButton(
               icon: Icon(Icons.search, color: Colors.red[900]),
-              onPressed: () {},
+              onPressed: () {
+                showSearch(context: context, delegate: MovieSearch(bloc.sMovies,));
+              },
             ),
           ],
       ),

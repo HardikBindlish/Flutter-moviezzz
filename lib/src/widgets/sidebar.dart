@@ -12,9 +12,9 @@ class NavDrawer extends StatefulWidget {
 class NavDrawerState extends State<NavDrawer> {
   ScrollController _scrollController;
   int genre;
+  var type = 'M';
 
   onListExpansionChanged(bool expanded) {
-    //returns if it was expanded (true) or collapsed (false)
     if (expanded) {
       _scrollController.animateTo(_scrollController.position.maxScrollExtent,
           duration: Duration(milliseconds: 500), curve: Curves.easeIn);
@@ -29,31 +29,47 @@ class NavDrawerState extends State<NavDrawer> {
       _scrollController = ScrollController();
     });
     super.initState();
-  }
+  } 
 
   fetchMovies() {
-    var data = {'type':'M','genre':genre};
+    var data = {'type':type,'genre':genre};
 
     Future.delayed(Duration.zero, () async {
       final bloc = MoviesProvider.of(context);
-      bloc.recentMovie(data);
+      bloc.recentData(data);
     });
 
     Future.delayed(Duration.zero, () async {
       final bloc = MoviesProvider.of(context);
-      bloc.topMovie();
+      bloc.topData(data);
     });
   }
 
   fetchSeasons() {
+    var data = {'type':type,'genre':genre};
+
     Future.delayed(Duration.zero, () async {
       final bloc = MoviesProvider.of(context);
-      bloc.recentSeason();
+      bloc.recentData(data);
     });
 
     Future.delayed(Duration.zero, () async {
       final bloc = MoviesProvider.of(context);
-      bloc.topSeason();
+      bloc.topData(data);
+    });
+  }
+
+  fetchGenres() {
+    var data = {'type':type,'genre':genre};
+
+    Future.delayed(Duration.zero, () async {
+      final bloc = MoviesProvider.of(context);
+      bloc.recentData(data);
+    });
+
+    Future.delayed(Duration.zero, () async {
+      final bloc = MoviesProvider.of(context);
+      bloc.topData(data);
     });
   }
 
@@ -78,9 +94,7 @@ class NavDrawerState extends State<NavDrawer> {
           child: InkWell(
               onTap: () {
                 fetchMovies();
-//                Navigator.push(context, MaterialPageRoute(
-//                  builder: (context) => HomeScreen()
-//                ));
+                type = 'M';
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -109,6 +123,7 @@ class NavDrawerState extends State<NavDrawer> {
           child: InkWell(
               onTap: () {
                 fetchSeasons();
+                type = 'S';
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -158,7 +173,7 @@ class NavDrawerState extends State<NavDrawer> {
                               setState(() {
                                 genre = index + 1;
                               });
-                              fetchMovies();
+                              fetchGenres();
                             },
                             child: Card(
                               child: Container(

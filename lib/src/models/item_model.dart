@@ -44,6 +44,7 @@ class Movie {
   String createDate;
   String trailer;
   String downloadSize;
+  String type;
 
   Movie(
       {this.id,
@@ -57,7 +58,8 @@ class Movie {
       this.category,
       this.createDate,
       this.trailer,
-      this.downloadSize});
+      this.downloadSize,
+      this.type});
 
   Movie.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -77,6 +79,7 @@ class Movie {
     createDate = json['create_date'];
     trailer = json['trailer'];
     downloadSize = json['download_size'];
+    type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -95,6 +98,7 @@ class Movie {
     data['create_date'] = this.createDate;
     data['trailer'] = this.trailer;
     data['download_size'] = this.downloadSize;
+    data['type'] = this.type;
     return data;
   }
 }

@@ -9,16 +9,11 @@ class RecentMovies extends StatefulWidget {
 }
 
 class _RecentMoviesState extends State<RecentMovies> {
-  final data = {'type':'M'};
+  var data = {'type':'M'};
 
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final bloc = MoviesProvider.of(context);
-    bloc.recentMovie(data);
+    bloc.recentData(data);
 
     return StreamBuilder(
         stream: bloc.rMovies,
@@ -43,7 +38,7 @@ class _RecentMoviesState extends State<RecentMovies> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text('Recent Movies',
+                            Text('Recent ${snapshot.data[0].type}',
                                 style: TextStyle(
                                     fontSize: 18.0, fontWeight: FontWeight.bold)),
                             FlatButton(onPressed: () {}, child: Text('View All')),

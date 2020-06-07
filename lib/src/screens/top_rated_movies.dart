@@ -9,18 +9,11 @@ class TopRatedMovies extends StatefulWidget {
 }
 
 class _TopMoviesState extends State<TopRatedMovies> {
-  void initState() {
-//    Future.delayed(Duration.zero, () async {
-//      final bloc = MoviesProvider.of(context);
-//      bloc.topMovie();
-//    });
-    super.initState();
-  }
-
-  @override
+  var data = {'type': 'M'};
+  
   Widget build(BuildContext context) {
     final bloc = MoviesProvider.of(context);
-    bloc.topMovie();
+    bloc.topData(data);
 
     return StreamBuilder(
         stream: bloc.tMovies,
@@ -46,7 +39,7 @@ class _TopMoviesState extends State<TopRatedMovies> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('Top-Rated Movies',
+                      Text('Top-Rated ${snapshot.data[0].type}',
                           style: TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.bold)),
                       FlatButton(onPressed: () {}, child: Text('View All')),
