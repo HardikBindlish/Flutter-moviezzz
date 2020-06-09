@@ -12,7 +12,7 @@ class NavDrawer extends StatefulWidget {
 class NavDrawerState extends State<NavDrawer> {
   ScrollController _scrollController;
   int genre;
-  var type = 'M';
+  var type;
 
   onListExpansionChanged(bool expanded) {
     if (expanded) {
@@ -31,8 +31,8 @@ class NavDrawerState extends State<NavDrawer> {
     super.initState();
   } 
 
-  fetchMovies() {
-    var data = {'type':type,'genre':genre};
+  fetchMovies(genre) {
+    var data = {'type':'M','genre':genre};
 
     Future.delayed(Duration.zero, () async {
       final bloc = MoviesProvider.of(context);
@@ -45,22 +45,8 @@ class NavDrawerState extends State<NavDrawer> {
     });
   }
 
-  fetchSeasons() {
-    var data = {'type':type,'genre':genre};
-
-    Future.delayed(Duration.zero, () async {
-      final bloc = MoviesProvider.of(context);
-      bloc.recentData(data);
-    });
-
-    Future.delayed(Duration.zero, () async {
-      final bloc = MoviesProvider.of(context);
-      bloc.topData(data);
-    });
-  }
-
-  fetchGenres() {
-    var data = {'type':type,'genre':genre};
+  fetchSeasons(genre) {
+    var data = {'type':'S','genre':genre};
 
     Future.delayed(Duration.zero, () async {
       final bloc = MoviesProvider.of(context);
@@ -93,8 +79,10 @@ class NavDrawerState extends State<NavDrawer> {
               border: Border(bottom: BorderSide(color: Colors.grey))),
           child: InkWell(
               onTap: () {
-                fetchMovies();
-                type = 'M';
+                fetchMovies(null);
+                setState(() {
+                  type = 'M';
+                });
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -122,8 +110,10 @@ class NavDrawerState extends State<NavDrawer> {
               border: Border(bottom: BorderSide(color: Colors.grey))),
           child: InkWell(
               onTap: () {
-                fetchSeasons();
-                type = 'S';
+                fetchSeasons(null);
+                setState(() {
+                  type = 'S';
+                });
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -170,10 +160,12 @@ class NavDrawerState extends State<NavDrawer> {
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
                             onTap: () {
-                              setState(() {
-                                genre = index + 1;
-                              });
-                              fetchGenres();
+                              if(type == 'M'){
+                                fetchMovies((index + 1));
+                              }
+                              else{
+                                fetchSeasons((index + 1));
+                              }
                             },
                             child: Card(
                               child: Container(
