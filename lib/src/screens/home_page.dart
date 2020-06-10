@@ -71,7 +71,7 @@ class HomePageState extends State<HomePage> {
               height: 10,
             ),
             SizedBox(
-                height: 450,
+                height: MediaQuery.of(context).size.height -400,
                 child: StreamBuilder(
                     stream: bloc.rMovies,
                     builder: (BuildContext context,
@@ -82,7 +82,7 @@ class HomePageState extends State<HomePage> {
                         );
                       }
                       return Carousel(
-                        height: 400,
+                        height: MediaQuery.of(context).size.height -400,
                         width: MediaQuery.of(context).size.width - 60,
                         type: Types.slideSwiper,
                         showIndicator: true,
