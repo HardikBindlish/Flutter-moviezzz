@@ -30,82 +30,35 @@ class _RecentMoviesState extends State<RecentMovies> {
           }
           else{
             return SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text('Recent ${snapshot.data[0].type}',
-                                style: TextStyle(
-                                    fontSize: 18.0, fontWeight: FontWeight.bold)),
-                            FlatButton(onPressed: () {}, child: Text('View All')),
-                          ],
+                  child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          // childAspectRatio: 2 / 3,
+                          crossAxisSpacing: 5,
+                          mainAxisSpacing: 8
                         ),
-                      ),
-
-                      SizedBox(
-                          height: 200,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                            height: 200,
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  width: 130,
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 10.0),
-                                  child: GestureDetector(
-                                    onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) => MoviesDetail(movie: snapshot.data[index])
-                                      ));
-                                    },
-                                    child: Column(
-                                    children: <Widget>[
-                                      Container(
-                                        height: 160,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          image: DecorationImage(
-                                              image: NetworkImage(
-                                                  snapshot.data[index].image),
-                                              fit: BoxFit.cover),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black,
-                                              blurRadius: 2.0,
-                                              spreadRadius: 0.0,
-                                              offset: Offset(2.0,
-                                                  2.0), // shadow direction: bottom right
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10.0,
-                                      ),
-                                      Text(
-                                        snapshot.data[index].title,
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ],
-                                  ),
-                                  ),
-                                );
-                              },
-                            ),
-                          )),                      
-                    ],
-                  ),
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, int index){
+                          return Container(
+                            height: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              image: DecorationImage(
+                                image: NetworkImage(snapshot.data[index].image),
+                                fit: BoxFit.cover
+                              ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black,
+                                  blurRadius: 2.0,
+                                  spreadRadius: 0.0,
+                                 offset: Offset(2.0,2.0), // shadow direction: bottom right
+                              )
+                            ],
+                          ),
+                          );
+                      },
+                    ),
                 );
           }
         }
@@ -113,7 +66,82 @@ class _RecentMoviesState extends State<RecentMovies> {
   }
 }
 
+// child: Column(
+//                     mainAxisSize: MainAxisSize.min,
+//                     children: <Widget>[
+//                       Padding(
+//                         padding: const EdgeInsets.all(10.0),
+//                         child: Row(
+//                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                           children: <Widget>[
+//                             Text('Recent ${snapshot.data[0].type}',
+//                                 style: TextStyle(
+//                                     fontSize: 18.0, fontWeight: FontWeight.bold)),
+//                             FlatButton(onPressed: () {}, child: Text('View All')),
+//                           ],
+//                         ),
+//                       ),
 
+//                       SizedBox(
+//                           height: 200,
+//                           child: Container(
+//                             padding: const EdgeInsets.symmetric(horizontal: 10.0),
+//                             height: 200,
+//                             child: ListView.builder(
+//                               shrinkWrap: true,
+//                               scrollDirection: Axis.horizontal,
+//                               itemCount: snapshot.data.length,
+//                               itemBuilder: (BuildContext context, int index) {
+//                                 return Container(
+//                                   width: 130,
+//                                   padding:
+//                                       const EdgeInsets.symmetric(horizontal: 10.0),
+//                                   child: GestureDetector(
+//                                     onTap: (){
+//                                       Navigator.push(context, MaterialPageRoute(
+//                                         builder: (context) => MoviesDetail(movie: snapshot.data[index])
+//                                       ));
+//                                     },
+//                                     child: Column(
+//                                     children: <Widget>[
+//                                       Container(
+//                                         height: 160,
+//                                         decoration: BoxDecoration(
+//                                           borderRadius: BorderRadius.circular(5.0),
+//                                           image: DecorationImage(
+//                                               image: NetworkImage(
+//                                                   snapshot.data[index].image),
+//                                               fit: BoxFit.cover),
+//                                           boxShadow: [
+//                                             BoxShadow(
+//                                               color: Colors.black,
+//                                               blurRadius: 2.0,
+//                                               spreadRadius: 0.0,
+//                                               offset: Offset(2.0,
+//                                                   2.0), // shadow direction: bottom right
+//                                             )
+//                                           ],
+//                                         ),
+//                                       ),
+//                                       SizedBox(
+//                                         height: 10.0,
+//                                       ),
+//                                       Text(
+//                                         snapshot.data[index].title,
+//                                         style: TextStyle(
+//                                             fontSize: 15,
+//                                             fontWeight: FontWeight.bold),
+//                                         textAlign: TextAlign.center,
+//                                       ),
+//                                     ],
+//                                   ),
+//                                   ),
+//                                 );
+//                               },
+//                             ),
+//                           )),                      
+//                     ],
+//                   ),
 
 
 

@@ -25,8 +25,8 @@ class MoviesBloc {
   }
 
   allGenre() async {
-    List<Genre> tseason = await _repository.fetchGenres();
-    _genres.sink.add(tseason);
+    List<Genre> allgenre = await _repository.fetchGenres();
+    _genres.sink.add(allgenre);
   }
 
   searchdata() async {

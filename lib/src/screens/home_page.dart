@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moviezzz/src/Bloc/moviesprovider.dart';
 import 'package:moviezzz/src/models/item_model.dart';
+import 'package:moviezzz/src/screens/genre_list.dart';
 import 'package:moviezzz/src/screens/info.dart';
 import 'package:moviezzz/src/screens/recent_movies.dart';
 import 'package:moviezzz/src/screens/top_rated_movies.dart';
@@ -25,8 +26,8 @@ class HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  fetchMovies() {
-    var data = {'type': 'M'};
+  fetchMovies(genre) {
+    var data = {'type': 'M','genre':genre};
 
     Future.delayed(Duration.zero, () async {
       final bloc = MoviesProvider.of(context);
@@ -39,8 +40,8 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  fetchSeasons() {
-    var data = {'type': 'S'};
+  fetchSeasons(genre) {
+    var data = {'type': 'S','genre':genre};
 
     Future.delayed(Duration.zero, () async {
       final bloc = MoviesProvider.of(context);
@@ -130,14 +131,24 @@ class HomePageState extends State<HomePage> {
                       child: ListView.builder(
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.all(5),
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            color: Colors.red[900],
-                            child: Text(
-                              snapshot.data[index].genre,
-                              style: TextStyle(color: Colors.white),
+                          return GestureDetector(
+                            onTap: (){
+                              if(type == 'M'){
+                                fetchMovies((index + 1));
+                              }
+                              else{
+                                fetchSeasons((index + 1));
+                              }
+                            },
+                            child:Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.all(5),
+                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              color: Colors.red[900],
+                              child: Text(
+                                snapshot.data[index].genre,
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           );
                         },
@@ -270,7 +281,7 @@ class HomePageState extends State<HomePage> {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  fetchMovies();
+                  fetchMovies(null);
                   setState(() {
                     type = 'M';
                   });
@@ -285,7 +296,7 @@ class HomePageState extends State<HomePage> {
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           child: GestureDetector(
             onTap: () {
-              fetchSeasons();
+              fetchSeasons(null);
               setState(() {
                 type = 'S';
               });
