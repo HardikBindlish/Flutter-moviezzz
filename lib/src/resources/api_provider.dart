@@ -43,6 +43,43 @@ class ApiProvider{
     }
   }
 
+  Future<List<Movie>> fetchGenreRecentData(Map data) async{
+    var response;
+
+    if(data['genre'] == null){
+      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}');
+    } else {
+      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}&genre=${data['genre']}');
+    }
+    print("${data['type']} / ${data['genre']} ");
+    if(response.statusCode == 200){
+      final data = json.decode(response.body);
+      List<Movie> recent = Movies.fromJson(data).recent;
+      return recent;
+    }
+    else{
+      throw Exception('Falied to get movies list');
+    }
+  }
+
+  Future<List<Movie>> fetchGenreTopRatedData(Map data) async{
+    var response;
+
+    if(data['genre'] == null){
+      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}');
+    } else {
+      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}&genre=${data['genre']}');
+    }
+    if(response.statusCode == 200){
+      final data = json.decode(response.body);
+      List<Movie> topRated = Movies.fromJson(data).topRated;
+      return topRated;
+    }
+    else{
+      throw Exception('Falied to get movies list');
+    }
+  }
+
   Future<List<Genre>> fetchGenre() async{
     final response = await client.get('http://harsh4861.pythonanywhere.com/api/genre/list');
     // print(response.body);

@@ -24,6 +24,7 @@ class HomePageState extends State<HomePage> {
       bloc.allGenre();
     });
     super.initState();
+    fetchMovies();
   }
 
   fetchMovies() {
@@ -56,8 +57,6 @@ class HomePageState extends State<HomePage> {
 
   Widget build(context) {
     final bloc = MoviesProvider.of(context);
-    bloc.recentData({'type': 'M'});
-    bloc.topData({'type': 'M'});
     return Scaffold(
       body: Row(children: <Widget>[
         CustomNavbar(),
@@ -133,12 +132,11 @@ class HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              fetchMovies();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => GenreList(
-                                          type: 'M', genre: index + 1)));
+                                          type: type, genre: index + 1)));
                             },
                             child: Container(
                               alignment: Alignment.center,

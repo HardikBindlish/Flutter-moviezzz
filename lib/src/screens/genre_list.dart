@@ -33,12 +33,12 @@ class GenreListState extends State<GenreList> {
 
      Future.delayed(Duration.zero, () async {
        final bloc = MoviesProvider.of(context);
-       bloc.recentData(data);
+       bloc.recentGenreData(data);
      });
 
      Future.delayed(Duration.zero, () async {
        final bloc = MoviesProvider.of(context);
-       bloc.topData(data);
+       bloc.topGenreData(data);
      });
    }
 
@@ -59,7 +59,7 @@ class GenreListState extends State<GenreList> {
             SizedBox(
               height: 200,
               child: StreamBuilder(
-                  stream: bloc.rMovies,
+                  stream: bloc.rGenre,
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Movie>> snapshot) {
                     if (!snapshot.hasData) {
@@ -104,7 +104,7 @@ class GenreListState extends State<GenreList> {
             SizedBox(
                 height: 200,
                 child: StreamBuilder(
-                    stream: bloc.tMovies,
+                    stream: bloc.tGenre,
                     builder: (BuildContext context,
                         AsyncSnapshot<List<Movie>> snapshot) {
                       if (!snapshot.hasData) {

@@ -12,6 +12,14 @@ class Repository{
     return apiProvider.fetchTopRatedData(data);
   }
 
+  Future<List<Movie>> fetchGenreRData(data) async{
+    return apiProvider.fetchRecentData(data);
+  }
+
+  Future<List<Movie>> fetchGenreTData(data) async{
+    return apiProvider.fetchTopRatedData(data);
+  }
+
   Future<List<Genre>> fetchGenres() async{
     return apiProvider.fetchGenre();
   }

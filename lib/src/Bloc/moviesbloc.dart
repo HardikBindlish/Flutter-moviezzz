@@ -9,10 +9,20 @@ class MoviesBloc {
   final _genres = BehaviorSubject<List<Genre>>();
   final _search = BehaviorSubject<List<Movie>>();
 
+  final _rGenre = BehaviorSubject<List<Movie>>();
+  final _tGenre = BehaviorSubject<List<Movie>>();
+
   Stream<List<Movie>> get rMovies => _rmovies.stream;
+
   Stream<List<Movie>> get tMovies => _tmovies.stream;
+
   Stream<List<Genre>> get genre => _genres.stream;
+
   Stream<List<Movie>> get sMovies => _search.stream;
+
+  Stream<List<Movie>> get rGenre => _rGenre.stream;
+
+  Stream<List<Movie>> get tGenre => _tGenre.stream;
 
   recentData(data) async {
     List<Movie> rmovie = await _repository.fetchRData(data);
@@ -22,6 +32,16 @@ class MoviesBloc {
   topData(data) async {
     List<Movie> tmovie = await _repository.fetchTData(data);
     _tmovies.sink.add(tmovie);
+  }
+
+  recentGenreData(data) async {
+    List<Movie> rmovie = await _repository.fetchRData(data);
+    _rGenre.sink.add(rmovie);
+  }
+
+  topGenreData(data) async {
+    List<Movie> tmovie = await _repository.fetchTData(data);
+    _tGenre.sink.add(tmovie);
   }
 
   allGenre() async {
