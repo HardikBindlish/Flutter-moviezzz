@@ -3,80 +3,147 @@ import 'package:moviezzz/src/Bloc/moviesprovider.dart';
 import 'package:moviezzz/src/models/item_model.dart';
 import 'package:moviezzz/src/widgets/customNavbar.dart';
 
-class GenreList extends StatefulWidget{
-  createState(){
-    return GenreListState();
+import 'info.dart';
+
+class GenreList extends StatefulWidget {
+  final String type;
+  final int genre;
+
+  const GenreList({Key key, this.type, this.genre}) : super(key: key);
+  createState() {
+    return GenreListState(type,genre);
   }
 }
 
-class GenreListState extends State<GenreList>{
-  var type;
+class GenreListState extends State<GenreList> {
+//  var type;
+  final String type;
+  final int genre;
 
-  // fetching(genre) {
-  //   var data = {'type': type,'genre':genre};
+  GenreListState(this.type, this.genre);
 
-  //   Future.delayed(Duration.zero, () async {
-  //     final bloc = MoviesProvider.of(context);
-  //     bloc.recentData(data);
-  //   });
+  @override
+  void initState() {
+    super.initState();
+    fetching();
+  }
 
-  //   Future.delayed(Duration.zero, () async {
-  //     final bloc = MoviesProvider.of(context);
-  //     bloc.topData(data);
-  //   });
-  // }
-  
-  Widget build(context){
+   fetching() {
+     var data = {'type': type,'genre':genre};
+
+     Future.delayed(Duration.zero, () async {
+       final bloc = MoviesProvider.of(context);
+       bloc.recentData(data);
+     });
+
+     Future.delayed(Duration.zero, () async {
+       final bloc = MoviesProvider.of(context);
+       bloc.topData(data);
+     });
+   }
+
+  Widget build(context) {
     final bloc = MoviesProvider.of(context);
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(15),
-        child: Row(
-          children: <Widget>[
-            CustomNavbar(),
-
-            StreamBuilder(
-              stream: bloc.rMovies,
-              builder: (BuildContext context, AsyncSnapshot<List<Movie>> snapshot1){
-                if(!snapshot1.hasData){
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                return StreamBuilder(
-                  stream: bloc.tMovies,
-                  builder: (BuildContext context, AsyncSnapshot<List<Movie>> snapshot2){
-                    if(!snapshot1.hasData){
+      body: Row(children: <Widget>[
+        CustomNavbar(),
+        Container(
+          width: MediaQuery.of(context).size.width - 60,
+          child: ListView(children: <Widget>[
+            SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: 200,
+              child: StreamBuilder(
+                  stream: bloc.rMovies,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Movie>> snapshot) {
+                    if (!snapshot.hasData) {
                       return Center(
                         child: CircularProgressIndicator(),
                       );
                     }
-                    return GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        // childAspectRatio: 2 / 3,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 8
+                    return Container(
+                      height: 190,
+                      width: MediaQuery.of(context).size.width - 60,
+                      child: ListView.builder(
+                        padding: EdgeInsets.only(left: 10),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Info(
+                                          movie: snapshot.data[index])));
+                            },
+                            child: Container(
+                              width: 120,
+                              margin: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: NetworkImage(
+                                          snapshot.data[index].image),
+                                      fit: BoxFit.cover)),
+                            ),
+                          );
+                        },
                       ),
-                      itemCount: 6,
-                      itemBuilder: (context, int index){
-                        if(type== 'M'){
-                          return Column(
-                          children: [
-
-                          ],
-                        );
-                        }
-                      },
                     );
-                  },
-                );
-              },
+                  }),
             ),
-
-          ],
-        )
-      )
+            SizedBox(
+              height: 30,
+            ),
+            SizedBox(
+                height: 200,
+                child: StreamBuilder(
+                    stream: bloc.tMovies,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<Movie>> snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return Container(
+                        height: 190,
+                        width: MediaQuery.of(context).size.width - 60,
+                        child: ListView.builder(
+                          padding: EdgeInsets.only(left: 10),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: (){
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Info(
+                                            movie: snapshot.data[index])));
+                              },
+                              child: Container(
+                                width: 120,
+                                margin: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: NetworkImage(snapshot.data[index].image),
+                                        fit: BoxFit.cover)),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    })),
+          ]),
+        ),
+      ]),
     );
   }
 }

@@ -14,6 +14,7 @@ class ApiProvider{
     } else {
       response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}&genre=${data['genre']}');
     }
+    print("${data['type']} / ${data['genre']} ");
     if(response.statusCode == 200){
       final data = json.decode(response.body);
       List<Movie> recent = Movies.fromJson(data).recent;

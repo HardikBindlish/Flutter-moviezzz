@@ -26,8 +26,8 @@ class HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  fetchMovies(genre) {
-    var data = {'type': 'M','genre':genre};
+  fetchMovies() {
+    var data = {'type': 'M'};
 
     Future.delayed(Duration.zero, () async {
       final bloc = MoviesProvider.of(context);
@@ -40,8 +40,8 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  fetchSeasons(genre) {
-    var data = {'type': 'S','genre':genre};
+  fetchSeasons() {
+    var data = {'type': 'S'};
 
     Future.delayed(Duration.zero, () async {
       final bloc = MoviesProvider.of(context);
@@ -93,8 +93,8 @@ class HomePageState extends State<HomePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Info(
-                                      movie: snapshot.data[index])));
+                                  builder: (context) =>
+                                      Info(movie: snapshot.data[index])));
                         },
                         showArrow: false,
                         axis: Axis.horizontal,
@@ -132,15 +132,15 @@ class HomePageState extends State<HomePage> {
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                            onTap: (){
-                              if(type == 'M'){
-                                fetchMovies((index + 1));
-                              }
-                              else{
-                                fetchSeasons((index + 1));
-                              }
+                            onTap: () {
+                              fetchMovies();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => GenreList(
+                                          type: 'M', genre: index + 1)));
                             },
-                            child:Container(
+                            child: Container(
                               alignment: Alignment.center,
                               margin: EdgeInsets.all(5),
                               padding: EdgeInsets.symmetric(horizontal: 15),
@@ -188,12 +188,12 @@ class HomePageState extends State<HomePage> {
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                  builder: (context) => Info(
-                                      movie: snapshot.data[index])));
+                                      builder: (context) =>
+                                          Info(movie: snapshot.data[index])));
                             },
                             child: Container(
                               width: 120,
@@ -244,19 +244,20 @@ class HomePageState extends State<HomePage> {
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                  builder: (context) => Info(
-                                      movie: snapshot.data[index])));
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Info(movie: snapshot.data[index])));
                               },
                               child: Container(
                                 width: 120,
                                 margin: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
                                     image: DecorationImage(
-                                        image: NetworkImage(snapshot.data[index].image),
+                                        image: NetworkImage(
+                                            snapshot.data[index].image),
                                         fit: BoxFit.cover)),
                               ),
                             );
@@ -281,7 +282,7 @@ class HomePageState extends State<HomePage> {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  fetchMovies(null);
+                  fetchMovies();
                   setState(() {
                     type = 'M';
                   });
@@ -296,7 +297,7 @@ class HomePageState extends State<HomePage> {
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           child: GestureDetector(
             onTap: () {
-              fetchSeasons(null);
+              fetchSeasons();
               setState(() {
                 type = 'S';
               });
