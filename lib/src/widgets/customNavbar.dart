@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moviezzz/src/Bloc/moviesprovider.dart';
 import 'package:moviezzz/src/screens/home_page.dart';
+import 'package:screen_loader/screen_loader.dart';
 import 'moviesearch.dart';
 
 class CustomNavbar extends StatefulWidget{
@@ -9,7 +10,20 @@ class CustomNavbar extends StatefulWidget{
   }
 }
 
-class CustomNavbarState extends State<CustomNavbar>{
+class CustomNavbarState extends State<CustomNavbar> with ScreenLoader<CustomNavbar>{
+
+  @override
+  loader() {
+    return AlertDialog(
+      backgroundColor: Colors.transparent,
+      title: Center(
+        child: CircularProgressIndicator()
+      ),
+    );
+  }
+
+  @override
+  loadingBgBlur() => 10.0;
 
   @override
   void initState() {
@@ -20,7 +34,7 @@ class CustomNavbarState extends State<CustomNavbar>{
     super.initState();
   } 
 
-  Widget build(context){
+  Widget screen(context){
     final bloc = MoviesProvider.of(context);
 
     return Container(
@@ -30,8 +44,9 @@ class CustomNavbarState extends State<CustomNavbar>{
         children: <Widget>[
 
           Padding(
+
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 50),
-            // child: Image.asset('assets/movie_appbar.png'),
+            child: Image.asset('assets/movie.jpg', ),
           ),
 
            Expanded(
@@ -39,10 +54,14 @@ class CustomNavbarState extends State<CustomNavbar>{
           ),
 
           InkWell(
-            onTap: (){
+            onTap: () async{
+              await this.performFuture(NetworkService.getData);
               Navigator.push(context, MaterialPageRoute(
                 builder: (context) => HomePage()
               ));
+              setState(() {
+                
+              });
             },
             child: Container(
               margin: EdgeInsets.only(bottom: 10),
@@ -77,5 +96,11 @@ class CustomNavbarState extends State<CustomNavbar>{
         ],
       ),
     );
+  }
+}
+
+class NetworkService {
+  static Future getData() async {
+    return await Future.delayed(Duration(seconds: 2));
   }
 }

@@ -3,6 +3,13 @@ import 'dart:async';
 import 'package:http/http.dart' show Client;
 import 'package:moviezzz/src/models/item_model.dart';
 
+
+class client {
+  static Future getData() async {
+    return await Future.delayed(Duration(seconds: 2));
+  }
+}
+
 class ApiProvider{
   Client client = Client();
 
@@ -28,7 +35,7 @@ class ApiProvider{
   Future<List<Movie>> fetchTopRatedData(Map data) async{
     var response;
 
-     if(data['genre'] == null){
+    if(data['genre'] == null){
       response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}');
     } else {
       response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}&genre=${data['genre']}');

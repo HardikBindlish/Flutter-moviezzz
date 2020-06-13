@@ -3,10 +3,11 @@ import 'package:moviezzz/src/Bloc/moviesprovider.dart';
 import 'package:moviezzz/src/models/item_model.dart';
 import 'package:moviezzz/src/screens/genre_list.dart';
 import 'package:moviezzz/src/screens/info.dart';
-import 'package:moviezzz/src/screens/recent_movies.dart';
-import 'package:moviezzz/src/screens/top_rated_movies.dart';
 import 'package:flutter_multi_carousel/carousel.dart';
+import 'package:moviezzz/src/screens/recentData.dart';
+import 'package:moviezzz/src/screens/topData.dart';
 import 'package:moviezzz/src/widgets/customNavbar.dart';
+import 'package:screen_loader/screen_loader.dart';
 
 class HomePage extends StatefulWidget {
   createState() {
@@ -14,8 +15,23 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> with ScreenLoader<HomePage>{
   var type;
+  Color _color1 = Colors.red[900];
+  Color _color2 = Colors.grey;
+
+  @override
+  loader() {
+    return AlertDialog(
+      backgroundColor: Colors.transparent,
+      title: Center(
+        child: CircularProgressIndicator()
+      ),
+    );
+  }
+
+  @override
+  loadingBgBlur() => 10.0;
 
   @override
   void initState() {
@@ -55,7 +71,7 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  Widget build(context) {
+  Widget screen(context) {
     final bloc = MoviesProvider.of(context);
     return Scaffold(
       body: Row(children: <Widget>[
@@ -85,8 +101,9 @@ class HomePageState extends State<HomePage> {
                         height: MediaQuery.of(context).size.height -400,
                         width: MediaQuery.of(context).size.width - 60,
                         type: Types.slideSwiper,
-                        showIndicator: true,
+                        showIndicator: false,
                         initialPage: 0,
+                        indicatorBackgroundColor: Colors.transparent,
                         indicatorType: IndicatorTypes.bar,
                         onCarouselTap: (index) {
                           Navigator.push(
@@ -131,7 +148,8 @@ class HomePageState extends State<HomePage> {
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                            onTap: () {
+                            onTap: () async {
+                              await this.performFuture(NetworkService.getData);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -156,113 +174,11 @@ class HomePageState extends State<HomePage> {
                     );
                   }),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text('Recent', style: TextStyle(fontWeight: FontWeight.w500)),
-                  Icon(Icons.arrow_forward)
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 200,
-              child: StreamBuilder(
-                  stream: bloc.rMovies,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<Movie>> snapshot) {
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    return Container(
-                      height: 190,
-                      width: MediaQuery.of(context).size.width - 60,
-                      child: ListView.builder(
-                        padding: EdgeInsets.only(left: 10),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          Info(movie: snapshot.data[index])));
-                            },
-                            child: Container(
-                              width: 120,
-                              margin: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                          snapshot.data[index].image),
-                                      fit: BoxFit.cover)),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  }),
-            ),
+            RecentData(),
             SizedBox(
               height: 30,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text('Top Rated',
-                      style: TextStyle(fontWeight: FontWeight.w500)),
-                  Icon(Icons.arrow_forward)
-                ],
-              ),
-            ),
-            SizedBox(
-                height: 200,
-                child: StreamBuilder(
-                    stream: bloc.tMovies,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<Movie>> snapshot) {
-                      if (!snapshot.hasData) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      return Container(
-                        height: 190,
-                        width: MediaQuery.of(context).size.width - 60,
-                        child: ListView.builder(
-                          padding: EdgeInsets.only(left: 10),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            Info(movie: snapshot.data[index])));
-                              },
-                              child: Container(
-                                width: 120,
-                                margin: EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            snapshot.data[index].image),
-                                        fit: BoxFit.cover)),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    })),
+            TopData(),
           ]),
         ),
       ]),
@@ -279,14 +195,17 @@ class HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               GestureDetector(
-                onTap: () {
+                onTap: () async{
+                  await this.performFuture(NetworkService.getData);
                   fetchMovies();
                   setState(() {
                     type = 'M';
+                    _color1 = new Color(0xFFB71C1C);
+                    _color2 = new Color(0xFF9E9E9E);
                   });
                 },
                 child: Text('Films',
-                    style: TextStyle(fontWeight: FontWeight.w500)),
+                    style: TextStyle(fontWeight: FontWeight.w500, color: _color1)),
               ),
             ],
           ),
@@ -294,19 +213,28 @@ class HomePageState extends State<HomePage> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           child: GestureDetector(
-            onTap: () {
+            onTap: () async{
+              await this.performFuture(NetworkService.getData);
               fetchSeasons();
               setState(() {
                 type = 'S';
+                _color2 = new Color(0xFFB71C1C);
+                _color1 = new Color(0xFF9E9E9E);
               });
             },
             child: Text(
               "Series",
-              style: TextStyle(fontWeight: FontWeight.w500),
+              style: TextStyle(fontWeight: FontWeight.w500, color: _color2),
             ),
           ),
         ),
       ],
     );
+  }
+}
+
+class NetworkService {
+  static Future getData() async {
+    return await Future.delayed(Duration(seconds: 2));
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:moviezzz/src/models/item_model.dart';
 import 'package:moviezzz/src/widgets/customNavbar.dart';
- 
+import 'package:url_launcher/url_launcher.dart'; 
+
 class Info extends StatelessWidget{
   final Movie movie;
 
@@ -66,7 +67,7 @@ class Info extends StatelessWidget{
       children: <Widget>[
         Text(movie.title, style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),),
         SizedBox(height: 5.0,),
-        Text(movie.type),
+        Text(movie.releaseDate),
         SizedBox(height: 15.0,),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -116,18 +117,41 @@ class Info extends StatelessWidget{
             ),
             Column(
               children: <Widget>[
-                Icon(
-                  Icons.youtube_searched_for,
-                  color: Colors.red[900],
+                FlatButton(
+                  onPressed: () async{
+                    final url = movie.trailer;
+                    if(await canLaunch(url)){
+                      await launch(url);
+                    }
+                    else{
+                      throw 'Could not lunch $url';
+                    }
+                  },
+                  child: Icon(
+                    Icons.youtube_searched_for,
+                    color: Colors.red[900],
+                  ),
+                  // color: Colors.white,
                 ),
                 Text("Trailer")
               ],
             ),
             Column(
               children: <Widget>[
-                Icon(
-                  Icons.file_download,
-                  color: Colors.red[900],
+                FlatButton(
+                  onPressed: () async{
+                    final url = movie.download;
+                    if(await canLaunch(url)){
+                      await launch(url);
+                    }
+                    else{
+                      throw 'Could not lunch $url';
+                    }
+                  },
+                  child: Icon(
+                    Icons.file_download,
+                    color: Colors.red[900],
+                 ),
                 ),
                 Text("Download")
               ],

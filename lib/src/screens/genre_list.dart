@@ -1,7 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:moviezzz/src/Bloc/moviesprovider.dart';
 import 'package:moviezzz/src/models/item_model.dart';
 import 'package:moviezzz/src/widgets/customNavbar.dart';
+import 'package:screen_loader/screen_loader.dart';
 
 import 'info.dart';
 
@@ -15,7 +17,7 @@ class GenreList extends StatefulWidget {
   }
 }
 
-class GenreListState extends State<GenreList> {
+class GenreListState extends State<GenreList> with ScreenLoader<GenreList>{
 //  var type;
   final String type;
   final int genre;
@@ -42,7 +44,7 @@ class GenreListState extends State<GenreList> {
      });
    }
 
-  Widget build(context) {
+  Widget screen(context) {
     final bloc = MoviesProvider.of(context);
     return Scaffold(
       body: Row(children: <Widget>[
@@ -55,6 +57,16 @@ class GenreListState extends State<GenreList> {
             ),
             SizedBox(
               height: 10,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text('Recent',
+                      style: TextStyle(fontWeight: FontWeight.w500)),
+                ],
+              ),
             ),
             SizedBox(
               height: 200,
@@ -100,6 +112,16 @@ class GenreListState extends State<GenreList> {
             ),
             SizedBox(
               height: 30,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text('Top Rated',
+                      style: TextStyle(fontWeight: FontWeight.w500)),
+                ],
+              ),
             ),
             SizedBox(
                 height: 200,
@@ -147,3 +169,5 @@ class GenreListState extends State<GenreList> {
     );
   }
 }
+
+

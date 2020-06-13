@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:moviezzz/src/models/item_model.dart';
-import 'package:moviezzz/src/screens/movies_detail.dart';
+import 'package:moviezzz/src/screens/info.dart';
 
 class MovieSearch extends SearchDelegate {
   final Stream<List<Movie>> movieList;
-            
-
+  
   MovieSearch(this.movieList);
-
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -52,7 +50,7 @@ class MovieSearch extends SearchDelegate {
                     onTap: (){
                       if(results != null){
                         Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => MoviesDetail(movie: a)
+                          builder: (context) => Info(movie: a)
                         ),
                        );
                       }
@@ -128,17 +126,7 @@ class MovieSearch extends SearchDelegate {
                     child: Row(
                     children: <Widget>[
                       Container(
-                        height: 100,
-                        width: 80,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.0),
-                            image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(a.image))),
-                      ),
-
-                      Container(
-                        height: 100,
+                        height:80,
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,16 +145,16 @@ class MovieSearch extends SearchDelegate {
                                     style: TextStyle(
                                         fontSize: 14.0, color: Colors.black87),
                                   )),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-                              Container(
-                                  width: 200,
-                                  child: Text(
-                                    a.rating,
-                                    style: TextStyle(
-                                        fontSize: 14.0, color: Colors.black87),
-                                  )),
+                              // SizedBox(
+                              //   height: 10.0,
+                              // ),
+                              // Container(
+                              //     width: 200,
+                              //     child: Text(
+                              //       a.rating,
+                              //       style: TextStyle(
+                              //           fontSize: 14.0, color: Colors.black87),
+                              //     )),
                             ]),
                       ),
                     ],
