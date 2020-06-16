@@ -158,7 +158,6 @@ class InfoState extends State<Info>{
                                         Icons.youtube_searched_for,
                                         color: Colors.red[900],
                                       ),
-                                      // color: Colors.white,
                                     ),
                                     Text("Trailer")
                                   ],
@@ -166,16 +165,7 @@ class InfoState extends State<Info>{
                                 Column(
                                   children: <Widget>[
                                     FlatButton(
-                                      // onPressed: null,
-                                      onPressed: () async{
-                                        final url = snapshot.data.episode[id].download;
-                                        if(await canLaunch(url)){
-                                          await launch(url);
-                                        }
-                                        else{
-                                          throw 'Could not lunch $url';
-                                        }
-                                      },
+                                      onPressed: null,
                                       child: Icon(
                                         Icons.file_download,
                                         color: Colors.red[900],

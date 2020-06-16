@@ -4,6 +4,10 @@ import 'package:moviezzz/src/models/item_model.dart';
 class Repository{
   ApiProvider apiProvider = ApiProvider();
 
+  Future<List<Genre>> fetchGData(data) async{
+    return apiProvider.fetchGenreData(data);
+  }
+
   Future<List<Movie>> fetchRData(data) async{
     return apiProvider.fetchRecentData(data);
   }
@@ -13,11 +17,11 @@ class Repository{
   }
 
   Future<List<Movie>> fetchGenreRData(data) async{
-    return apiProvider.fetchRecentData(data);
+    return apiProvider.fetchGenreRecentData(data);
   }
 
   Future<List<Movie>> fetchGenreTData(data) async{
-    return apiProvider.fetchTopRatedData(data);
+    return apiProvider.fetchGenreTopRatedData(data);
   }
 
   Future<List<Genre>> fetchGenres() async{

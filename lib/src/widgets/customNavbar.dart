@@ -55,7 +55,7 @@ class CustomNavbarState extends State<CustomNavbar> with ScreenLoader<CustomNavb
 
           InkWell(
             onTap: () async{
-              await this.performFuture(NetworkService.getData);
+              // await this.performFuture(NetworkService.getData);
               Navigator.push(context, MaterialPageRoute(
                 builder: (context) => HomePage()
               ));

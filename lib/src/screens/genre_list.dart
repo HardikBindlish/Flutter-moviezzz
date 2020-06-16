@@ -35,12 +35,12 @@ class GenreListState extends State<GenreList> with ScreenLoader<GenreList>{
 
      Future.delayed(Duration.zero, () async {
        final bloc = MoviesProvider.of(context);
-       bloc.recentGenreData(data);
+       bloc.recentData(data);
      });
 
      Future.delayed(Duration.zero, () async {
        final bloc = MoviesProvider.of(context);
-       bloc.topGenreData(data);
+       bloc.topData(data);
      });
    }
 

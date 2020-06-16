@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> with ScreenLoader<HomePage>{
-  var type;
+  var type = 'Movie';
   Color _color1 = Colors.red[900];
   Color _color2 = Colors.grey;
 
