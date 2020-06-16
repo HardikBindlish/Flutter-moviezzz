@@ -59,9 +59,6 @@ class CustomNavbarState extends State<CustomNavbar> with ScreenLoader<CustomNavb
               Navigator.push(context, MaterialPageRoute(
                 builder: (context) => HomePage()
               ));
-              setState(() {
-                
-              });
             },
             child: Container(
               margin: EdgeInsets.only(bottom: 10),

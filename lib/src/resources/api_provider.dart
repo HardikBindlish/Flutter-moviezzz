@@ -4,22 +4,17 @@ import 'package:http/http.dart' show Client;
 import 'package:moviezzz/src/models/item_model.dart';
 
 
-class client {
-  static Future getData() async {
-    return await Future.delayed(Duration(seconds: 2));
-  }
-}
-
 class ApiProvider{
   Client client = Client();
+  final url = 'http://3.128.25.203/api';
 
   Future<List<Movie>> fetchRecentData(Map data) async{
     var response;
 
     if(data['genre'] == null){
-      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}');
+      response = await client.get('$url/fetch?type=${data['type']}');
     } else {
-      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}&genre=${data['genre']}');
+      response = await client.get('$url/fetch?type=${data['type']}&genre=${data['genre']}');
     }
     print("${data['type']} / ${data['genre']} ");
     if(response.statusCode == 200){
@@ -36,9 +31,9 @@ class ApiProvider{
     var response;
 
     if(data['genre'] == null){
-      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}');
+      response = await client.get('$url/fetch?type=${data['type']}');
     } else {
-      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}&genre=${data['genre']}');
+      response = await client.get('$url/fetch?type=${data['type']}&genre=${data['genre']}');
     }
     if(response.statusCode == 200){
       final data = json.decode(response.body);
@@ -54,9 +49,9 @@ class ApiProvider{
     var response;
 
     if(data['genre'] == null){
-      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}');
+      response = await client.get('$url/fetch?type=${data['type']}');
     } else {
-      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}&genre=${data['genre']}');
+      response = await client.get('$url/fetch?type=${data['type']}&genre=${data['genre']}');
     }
     print("${data['type']} / ${data['genre']} ");
     if(response.statusCode == 200){
@@ -73,9 +68,9 @@ class ApiProvider{
     var response;
 
     if(data['genre'] == null){
-      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}');
+      response = await client.get('$url/fetch?type=${data['type']}');
     } else {
-      response = await client.get('http://harsh4861.pythonanywhere.com/api/fetch?type=${data['type']}&genre=${data['genre']}');
+      response = await client.get('$url/fetch?type=${data['type']}&genre=${data['genre']}');
     }
     if(response.statusCode == 200){
       final data = json.decode(response.body);
@@ -88,7 +83,7 @@ class ApiProvider{
   }
 
   Future<List<Genre>> fetchGenre() async{
-    final response = await client.get('http://harsh4861.pythonanywhere.com/api/genre/list');
+    final response = await client.get('$url/genre/list');
     // print(response.body);
     if(response.statusCode == 200){
       final data = json.decode(response.body) as List;
@@ -102,12 +97,36 @@ class ApiProvider{
   }
 
   Future<List<Movie>> searchMovies() async{
-    final response = await client.get('http://harsh4861.pythonanywhere.com/api/search');
+    final response = await client.get('$url/search');
     if(response.statusCode == 200){
       final data = json.decode(response.body);
       List<Movie> search = List<Movie>();
       data.forEach((movie) => {search.add(Movie.fromJson(movie))});
       return search;
+    }
+    else{
+      throw Exception('Falied to get movies list');
+    }
+  }
+
+  Future<Movie> detailMovies(int id) async{
+    final response = await client.get('$url/movie?id=$id');
+    if(response.statusCode == 200){
+      Map<String, dynamic> data = json.decode(response.body);
+      Movie detail = Details.fromJson(data).movieDetail;
+      return detail;
+    }
+    else{
+      throw Exception('Falied to get movies list');
+    }
+  }
+
+  Future<List<Movie>> similarMovies(int id) async{
+    final response = await client.get('$url/movie?id=$id');
+    if(response.statusCode == 200){
+      final data = json.decode(response.body);
+      List<Movie> similar = Details.fromJson(data).similarMovies;
+      return similar;
     }
     else{
       throw Exception('Falied to get movies list');

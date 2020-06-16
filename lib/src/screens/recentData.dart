@@ -49,7 +49,7 @@ class RecentDataState extends State<RecentData>{
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          Info(movie: snapshot.data[index])));
+                                          Info(id: snapshot.data[index].id)));
                             },
                             child: Container(
                               width: 120,

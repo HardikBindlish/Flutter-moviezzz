@@ -27,4 +27,12 @@ class Repository{
   Future<List<Movie>> search() async{
     return apiProvider.searchMovies();
   }
+
+  Future<Movie> detail(id) async{
+    return apiProvider.detailMovies(id);
+  }
+
+  Future<List<Movie>> similar(id) async{
+    return apiProvider.similarMovies(id);
+  }
 }

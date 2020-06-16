@@ -44,7 +44,7 @@ class HomePageState extends State<HomePage> with ScreenLoader<HomePage>{
   }
 
   fetchMovies() {
-    var data = {'type': 'M'};
+    var data = {'type': 'Movie'};
 
     Future.delayed(Duration.zero, () async {
       final bloc = MoviesProvider.of(context);
@@ -58,7 +58,7 @@ class HomePageState extends State<HomePage> with ScreenLoader<HomePage>{
   }
 
   fetchSeasons() {
-    var data = {'type': 'S'};
+    var data = {'type': 'Season'};
 
     Future.delayed(Duration.zero, () async {
       final bloc = MoviesProvider.of(context);
@@ -110,7 +110,7 @@ class HomePageState extends State<HomePage> with ScreenLoader<HomePage>{
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      Info(movie: snapshot.data[index])));
+                                      Info(id: snapshot.data[index].id)));
                         },
                         showArrow: false,
                         axis: Axis.horizontal,
@@ -154,7 +154,7 @@ class HomePageState extends State<HomePage> with ScreenLoader<HomePage>{
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => GenreList(
-                                          type: type, genre: index + 1)));
+                                          type: type, genre: snapshot.data[index].id)));
                             },
                             child: Container(
                               alignment: Alignment.center,
@@ -199,7 +199,7 @@ class HomePageState extends State<HomePage> with ScreenLoader<HomePage>{
                   await this.performFuture(NetworkService.getData);
                   fetchMovies();
                   setState(() {
-                    type = 'M';
+                    type = 'Movie';
                     _color1 = new Color(0xFFB71C1C);
                     _color2 = new Color(0xFF9E9E9E);
                   });
@@ -217,7 +217,7 @@ class HomePageState extends State<HomePage> with ScreenLoader<HomePage>{
               await this.performFuture(NetworkService.getData);
               fetchSeasons();
               setState(() {
-                type = 'S';
+                type = 'Season';
                 _color2 = new Color(0xFFB71C1C);
                 _color1 = new Color(0xFF9E9E9E);
               });

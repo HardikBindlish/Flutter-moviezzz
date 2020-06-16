@@ -50,7 +50,7 @@ class MovieSearch extends SearchDelegate {
                     onTap: (){
                       if(results != null){
                         Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => Info(movie: a)
+                          builder: (context) => Info(id: a.id)
                         ),
                        );
                       }

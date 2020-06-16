@@ -50,7 +50,7 @@ class TopDataState extends State<TopData>{
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            Info(movie: snapshot.data[index])));
+                                            Info(id: snapshot.data[index].id)));
                               },
                               child: Container(
                                 width: 120,

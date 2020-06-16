@@ -93,7 +93,7 @@ class GenreListState extends State<GenreList> with ScreenLoader<GenreList>{
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => Info(
-                                          movie: snapshot.data[index])));
+                                          id: snapshot.data[index].id)));
                             },
                             child: Container(
                               width: 120,
@@ -148,7 +148,7 @@ class GenreListState extends State<GenreList> with ScreenLoader<GenreList>{
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Info(
-                                            movie: snapshot.data[index])));
+                                            id: snapshot.data[index].id)));
                               },
                               child: Container(
                                 width: 120,

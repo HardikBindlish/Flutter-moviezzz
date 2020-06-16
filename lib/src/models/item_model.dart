@@ -1,8 +1,26 @@
+class Details{
+  Movie movieDetail;
+  List<Movie> similarMovies;
+
+  Details({this.movieDetail, this.similarMovies});
+
+  factory Details.fromJson(Map<String, dynamic> json) => Details(
+        movieDetail: Movie.fromJson(json["movie_detail"]),
+        similarMovies: List<Movie>.from(json["similar_movies"].map((x) => Movie.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "movie_detail": movieDetail.toJson(),
+        "similar_movies": List<dynamic>.from(similarMovies.map((x) => x.toJson())),
+    };
+}
+
 class Movies {
   List<Movie> recent;
   List<Movie> topRated;
+  List<Genre> genres;
 
-  Movies({this.recent, this.topRated});
+  Movies({this.recent, this.topRated, this.genres});
 
   Movies.fromJson(Map<String, dynamic> json) {
     if (json['recent'] != null) {
@@ -17,6 +35,12 @@ class Movies {
         topRated.add(new Movie.fromJson(v));
       });
     }
+    if (json['genres'] != null) {
+      genres = new List<Genre>();
+      json['genres'].forEach((v) {
+        genres.add(new Genre.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -26,6 +50,9 @@ class Movies {
     }
     if (this.topRated != null) {
       data['top_rated'] = this.topRated.map((v) => v.toJson()).toList();
+    }
+    if (this.genres != null) {
+      data['genres'] = this.genres.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -39,12 +66,11 @@ class Movie {
   List<Genre> genre;
   String rating;
   String image;
-  String download;
   String category;
   String createDate;
   String trailer;
-  String downloadSize;
   String type;
+  List<Episode> episode;
 
   Movie(
       {this.id,
@@ -54,12 +80,11 @@ class Movie {
       this.genre,
       this.rating,
       this.image,
-      this.download,
       this.category,
       this.createDate,
       this.trailer,
-      this.downloadSize,
-      this.type});
+      this.type,
+      this.episode});
 
   Movie.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -74,12 +99,16 @@ class Movie {
     }
     rating = json['rating'];
     image = json['image'];
-    download = json['download'];
     category = json['category'];
     createDate = json['create_date'];
     trailer = json['trailer'];
-    downloadSize = json['download_size'];
     type = json['type'];
+    if (json['episode'] != null) {
+      episode = new List<Episode>();
+      json['episode'].forEach((v) {
+        episode.add(new Episode.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -93,11 +122,9 @@ class Movie {
     }
     data['rating'] = this.rating;
     data['image'] = this.image;
-    data['download'] = this.download;
     data['category'] = this.category;
     data['create_date'] = this.createDate;
     data['trailer'] = this.trailer;
-    data['download_size'] = this.downloadSize;
     data['type'] = this.type;
     return data;
   }
@@ -120,4 +147,38 @@ class Genre {
     data['genre'] = this.genre;
     return data;
   }
+}
+
+class Episode {
+  int id;
+  String title;
+  String download;
+  String downloadSize;
+  String quality;
+  String length;
+  int movies;
+
+  Episode({this.id, this.title, this.download, this.downloadSize, this.quality, this.length, this.movies});
+
+  Episode.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    title = json['title'];
+    download = json['download'];
+    downloadSize = json['download_size'];
+    quality = json['quality'];
+    length = json['length'];
+    movies = json['movies'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['download'] = this.download;
+    data['downloadSize'] = this.downloadSize;
+    data['quality'] = this.quality;
+    data['length'] = this.length;
+    data['movies'] = this.movies;
+    return data;
+  } 
 }
