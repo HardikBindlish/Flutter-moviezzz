@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "675318660131",
+    "firebase_url": "https://moviezzz-c010d.firebaseio.com",
+    "project_id": "moviezzz-c010d",
+    "storage_bucket": "moviezzz-c010d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:675318660131:android:ad9668c24e27da802cc596",
+        "android_client_info": {
+          "package_name": "com.example.moviezzz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "675318660131-ncbrqqvnfurdhbh1v5p6c229c1p1kcue.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkNVc6xC-GREqaevo4aS0-sBes9rByGgQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "675318660131-ncbrqqvnfurdhbh1v5p6c229c1p1kcue.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

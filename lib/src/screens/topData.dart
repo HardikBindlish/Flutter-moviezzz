@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moviezzz/src/Bloc/moviesprovider.dart';
 import 'package:moviezzz/src/models/item_model.dart';
+import 'package:screen_loader/screen_loader.dart';
 import 'info.dart';
 
 class TopData extends StatefulWidget{
@@ -9,8 +10,22 @@ class TopData extends StatefulWidget{
   }
 }
 
-class TopDataState extends State<TopData>{
-  Widget build(context){
+class TopDataState extends State<TopData> with ScreenLoader<TopData>{
+
+   @override
+  loader() {
+    return AlertDialog(
+      backgroundColor: Colors.transparent,
+      title: Center(
+        child: CircularProgressIndicator()
+      ),
+    );
+  }
+
+  @override
+  loadingBgBlur() => 10.0;
+
+  Widget screen(context){
     final bloc = MoviesProvider.of(context);
     return Column(
       children: [
@@ -45,7 +60,8 @@ class TopDataState extends State<TopData>{
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
-                              onTap: () {
+                              onTap: () async{
+                                await this.performFuture(NetworkService.getData);
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -68,5 +84,11 @@ class TopDataState extends State<TopData>{
                     })),
       ],
     );
+  }
+}
+
+class NetworkService {
+  static Future getData() async {
+    return await Future.delayed(Duration(seconds: 3));
   }
 }

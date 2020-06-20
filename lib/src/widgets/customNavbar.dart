@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:moviezzz/src/Bloc/moviesprovider.dart';
 import 'package:moviezzz/src/screens/home_page.dart';
 import 'moviesearch.dart';
-import 'package:vertical_navigation_bar/vertical_navigation_bar.dart';
 
 class CustomNavbar extends StatefulWidget{
   createState(){

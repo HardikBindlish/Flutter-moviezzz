@@ -1,4 +1,5 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:moviezzz/src/Bloc/moviesprovider.dart';
 import 'package:moviezzz/src/models/item_model.dart';
@@ -99,12 +100,19 @@ class GenreListState extends State<GenreList> with ScreenLoader<GenreList>{
                             child: Container(
                               width: 120,
                               margin: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                          snapshot.data[index].image),
-                                      fit: BoxFit.cover)
-                                      ),
+                              child: CachedNetworkImage(
+                                imageUrl: snapshot.data[index].image,
+                                imageBuilder: (context, imageProvider) => Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                placeholder: (context, url) {return Image.asset('assets/6.gif');},
+                                errorWidget: (context, url, error) => Icon(Icons.error),
+                              ),
                             ),
                           );
                         },
@@ -156,10 +164,19 @@ class GenreListState extends State<GenreList> with ScreenLoader<GenreList>{
                               child: Container(
                                 width: 120,
                                 margin: EdgeInsets.all(5),
-                                decoration: BoxDecoration(
+                                child: CachedNetworkImage(
+                                imageUrl: snapshot.data[index].image,
+                                imageBuilder: (context, imageProvider) => Container(
+                                  decoration: BoxDecoration(
                                     image: DecorationImage(
-                                        image: NetworkImage(snapshot.data[index].image),
-                                        fit: BoxFit.cover)),
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                placeholder: (context, url) {return Image.asset('assets/6.gif');},
+                                errorWidget: (context, url, error) => Icon(Icons.error),
+                              ),
                               ),
                             );
                           },

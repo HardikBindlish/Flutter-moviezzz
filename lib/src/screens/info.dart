@@ -3,6 +3,7 @@ import 'package:moviezzz/src/Bloc/moviesprovider.dart';
 import 'package:moviezzz/src/models/item_model.dart';
 import 'package:moviezzz/src/widgets/customNavbar.dart';
 import 'package:url_launcher/url_launcher.dart'; 
+import 'package:screen_loader/screen_loader.dart';
 
 class Info extends StatefulWidget{
   final int id;
@@ -13,10 +14,24 @@ class Info extends StatefulWidget{
   }
 }
 
-class InfoState extends State<Info>{
+class InfoState extends State<Info> with ScreenLoader<Info>{
   final int id;
 
   InfoState(this.id);
+
+   @override
+  loader() {
+    return AlertDialog(
+      backgroundColor: Colors.transparent,
+      title: Center(
+        child: CircularProgressIndicator()
+      ),
+    );
+  }
+
+  @override
+  loadingBgBlur() => 10.0;
+
 
   @override
   void initState() {
@@ -37,7 +52,7 @@ class InfoState extends State<Info>{
      });
    }
 
-  Widget build(context){
+  Widget screen(context){
     final bloc = MoviesProvider.of(context);
     return Scaffold(
       body: StreamBuilder(
@@ -279,7 +294,8 @@ class InfoState extends State<Info>{
                                           itemCount: snapshot.data.length,
                                           itemBuilder: (context, index) {
                                             return GestureDetector(
-                                              onTap: (){
+                                              onTap: () async{
+                                                await this.performFuture(NetworkService.getData);
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -311,6 +327,12 @@ class InfoState extends State<Info>{
         }
       ),
     );
+  }
+}
+
+class NetworkService {
+  static Future getData() async {
+    return await Future.delayed(Duration(seconds: 3));
   }
 }
  

@@ -172,3 +172,5 @@ class MovieSearch extends SearchDelegate {
     );
   }
 }
+
+
