@@ -28,6 +28,8 @@ dependencies:
   flutter_multi_carousel: ^1.0.1
   url_launcher: ^5.4.10
   screen_loader: ^2.0.0
+  splashscreen: ^1.2.0
+  vertical_navigation_bar: ^0.0.2
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +52,8 @@ flutter:
     - assets/movie_appbar.png
     - assets/sidebar_pic.png
     - assets/movie.jpg
+    - assets/loading.jpg
+    - assets/6.gif
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 

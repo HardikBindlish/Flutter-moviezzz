@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:moviezzz/src/Bloc/moviesprovider.dart';
 import 'package:moviezzz/src/screens/home_page.dart';
-import 'package:screen_loader/screen_loader.dart';
 import 'moviesearch.dart';
+import 'package:vertical_navigation_bar/vertical_navigation_bar.dart';
 
 class CustomNavbar extends StatefulWidget{
   createState(){
@@ -10,20 +10,9 @@ class CustomNavbar extends StatefulWidget{
   }
 }
 
-class CustomNavbarState extends State<CustomNavbar> with ScreenLoader<CustomNavbar>{
+class CustomNavbarState extends State<CustomNavbar>{
+  final int initialindex = 0;
 
-  @override
-  loader() {
-    return AlertDialog(
-      backgroundColor: Colors.transparent,
-      title: Center(
-        child: CircularProgressIndicator()
-      ),
-    );
-  }
-
-  @override
-  loadingBgBlur() => 10.0;
 
   @override
   void initState() {
@@ -34,7 +23,7 @@ class CustomNavbarState extends State<CustomNavbar> with ScreenLoader<CustomNavb
     super.initState();
   } 
 
-  Widget screen(context){
+  Widget build(context){
     final bloc = MoviesProvider.of(context);
 
     return Container(
@@ -46,7 +35,7 @@ class CustomNavbarState extends State<CustomNavbar> with ScreenLoader<CustomNavb
           Padding(
 
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 50),
-            child: Image.asset('assets/movie.jpg', ),
+            child: Image.asset('assets/movie.jpg'),
           ),
 
            Expanded(
@@ -55,7 +44,6 @@ class CustomNavbarState extends State<CustomNavbar> with ScreenLoader<CustomNavb
 
           InkWell(
             onTap: () async{
-              // await this.performFuture(NetworkService.getData);
               Navigator.push(context, MaterialPageRoute(
                 builder: (context) => HomePage()
               ));
@@ -96,8 +84,3 @@ class CustomNavbarState extends State<CustomNavbar> with ScreenLoader<CustomNavb
   }
 }
 
-class NetworkService {
-  static Future getData() async {
-    return await Future.delayed(Duration(seconds: 2));
-  }
-}

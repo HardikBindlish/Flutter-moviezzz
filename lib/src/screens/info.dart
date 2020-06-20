@@ -135,7 +135,7 @@ class InfoState extends State<Info>{
                                     FlatButton(
                                       onPressed: null, 
                                       child: Icon(
-                                        Icons.favorite_border,
+                                        Icons.star_border,
                                         color: Colors.red[900],
                                       ),
                                     ),
@@ -155,7 +155,7 @@ class InfoState extends State<Info>{
                                         }
                                       },
                                       child: Icon(
-                                        Icons.youtube_searched_for,
+                                        Icons.movie,
                                         color: Colors.red[900],
                                       ),
                                     ),
@@ -167,11 +167,11 @@ class InfoState extends State<Info>{
                                     FlatButton(
                                       onPressed: null,
                                       child: Icon(
-                                        Icons.file_download,
+                                        Icons.category,
                                         color: Colors.red[900],
                                     ),
                                     ),
-                                    Text("Download")
+                                    Text(snapshot.data.category)
                                   ],
                                 ),
                               ],

@@ -8,7 +8,7 @@ class ApiProvider{
   Client client = Client();
   final url = 'http://3.128.25.203/api';
 
-  Future<List<Genre>> fetchGenreData(Map data) async{
+  Future<List<Movie>> fetchFeaturedData(Map data) async{
     var response;
 
     if(data['genre'] == null){
@@ -16,15 +16,17 @@ class ApiProvider{
     } else {
       response = await client.get('$url/fetch?type=${data['type']}&genre=${data['genre']}');
     }
+    print("${data['type']} / ${data['genre']} ");
     if(response.statusCode == 200){
       final data = json.decode(response.body);
-      List<Genre> detail = Movies.fromJson(data).genres;
-      return detail;
+      List<Movie> feature = Movies.fromJson(data).feature;
+      return feature;
     }
     else{
       throw Exception('Falied to get movies list');
     }
   }
+
 
   Future<List<Movie>> fetchRecentData(Map data) async{
     var response;

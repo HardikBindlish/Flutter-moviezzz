@@ -4,7 +4,7 @@ import 'package:moviezzz/src/models/item_model.dart';
 
 class MoviesBloc {
   Repository _repository = Repository();
-  final _gmovies = BehaviorSubject<List<Genre>>();
+  final _fmovies = BehaviorSubject<List<Movie>>();
   final _rmovies = BehaviorSubject<List<Movie>>();
   final _tmovies = BehaviorSubject<List<Movie>>();
   final _genres = BehaviorSubject<List<Genre>>();
@@ -14,7 +14,7 @@ class MoviesBloc {
   final _detail = BehaviorSubject<Movie>();
   final _similar = BehaviorSubject<List<Movie>>();
 
-  Stream<List<Genre>> get gMovies => _gmovies.stream;
+  Stream<List<Movie>> get fMovies => _fmovies.stream;
 
   Stream<List<Movie>> get rMovies => _rmovies.stream;
 
@@ -43,9 +43,9 @@ class MoviesBloc {
     _similar.sink.add(similars);
   }
 
-  genreData(data) async {
-    List<Genre> gmovie = await _repository.fetchGData(data);
-    _gmovies.sink.add(gmovie);
+  featuredData(data) async{
+    List<Movie> fmovie = await _repository.fetchfeatureData(data);
+    _fmovies.sink.add(fmovie);
   }
 
   recentData(data) async {
@@ -87,6 +87,6 @@ class MoviesBloc {
     _search.close();
     _detail.close();
     _similar.close();
-    _gmovies.close();
+    _fmovies.close();
   }
 }

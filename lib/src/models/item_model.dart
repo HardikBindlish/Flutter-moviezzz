@@ -19,8 +19,9 @@ class Movies {
   List<Movie> recent;
   List<Movie> topRated;
   List<Genre> genres;
+  List<Movie> feature;
 
-  Movies({this.recent, this.topRated, this.genres});
+  Movies({this.recent, this.topRated, this.genres,this.feature});
 
   Movies.fromJson(Map<String, dynamic> json) {
     if (json['recent'] != null) {
@@ -41,6 +42,12 @@ class Movies {
         genres.add(new Genre.fromJson(v));
       });
     }
+    if (json['featured'] != null) {
+      feature = new List<Movie>();
+      json['featured'].forEach((v) {
+        feature.add(new Movie.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -53,6 +60,9 @@ class Movies {
     }
     if (this.genres != null) {
       data['genres'] = this.genres.map((v) => v.toJson()).toList();
+    }
+    if (this.feature != null) {
+      data['featured'] = this.feature.map((v) => v.toJson()).toList();
     }
     return data;
   }

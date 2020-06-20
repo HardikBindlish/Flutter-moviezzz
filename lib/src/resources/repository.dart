@@ -4,8 +4,8 @@ import 'package:moviezzz/src/models/item_model.dart';
 class Repository{
   ApiProvider apiProvider = ApiProvider();
 
-  Future<List<Genre>> fetchGData(data) async{
-    return apiProvider.fetchGenreData(data);
+  Future<List<Movie>> fetchfeatureData(data) async{
+    return apiProvider.fetchFeaturedData(data);
   }
 
   Future<List<Movie>> fetchRData(data) async{

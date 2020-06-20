@@ -55,6 +55,11 @@ class HomePageState extends State<HomePage> with ScreenLoader<HomePage>{
       final bloc = MoviesProvider.of(context);
       bloc.topData(data);
     });
+
+    Future.delayed(Duration.zero, () async {
+      final bloc = MoviesProvider.of(context);
+      bloc.featuredData(data);
+    });
   }
 
   fetchSeasons() {
@@ -68,6 +73,11 @@ class HomePageState extends State<HomePage> with ScreenLoader<HomePage>{
     Future.delayed(Duration.zero, () async {
       final bloc = MoviesProvider.of(context);
       bloc.topData(data);
+    });
+
+    Future.delayed(Duration.zero, () async {
+      final bloc = MoviesProvider.of(context);
+      bloc.featuredData(data);
     });
   }
 
@@ -89,7 +99,7 @@ class HomePageState extends State<HomePage> with ScreenLoader<HomePage>{
             SizedBox(
                 height: MediaQuery.of(context).size.height -400,
                 child: StreamBuilder(
-                    stream: bloc.rMovies,
+                    stream: bloc.fMovies,
                     builder: (BuildContext context,
                         AsyncSnapshot<List<Movie>> snapshot) {
                       if (!snapshot.hasData) {
@@ -105,12 +115,13 @@ class HomePageState extends State<HomePage> with ScreenLoader<HomePage>{
                         initialPage: 0,
                         indicatorBackgroundColor: Colors.transparent,
                         indicatorType: IndicatorTypes.bar,
-                        onCarouselTap: (index) {
-                          Navigator.push(
+                        onCarouselTap: (index) async{
+                          await this.performFuture(NetworkService.getData);
+                          await Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      Info(id: snapshot.data[index].id)));
+                                      Info(id: snapshot.data[index].id)));          
                         },
                         showArrow: false,
                         axis: Axis.horizontal,
@@ -150,7 +161,7 @@ class HomePageState extends State<HomePage> with ScreenLoader<HomePage>{
                           return GestureDetector(
                             onTap: () async {
                               await this.performFuture(NetworkService.getData);
-                              Navigator.push(
+                              await Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => GenreList(
@@ -235,6 +246,6 @@ class HomePageState extends State<HomePage> with ScreenLoader<HomePage>{
 
 class NetworkService {
   static Future getData() async {
-    return await Future.delayed(Duration(seconds: 2));
+    return await Future.delayed(Duration(seconds: 3));
   }
 }

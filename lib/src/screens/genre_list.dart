@@ -35,12 +35,12 @@ class GenreListState extends State<GenreList> with ScreenLoader<GenreList>{
 
      Future.delayed(Duration.zero, () async {
        final bloc = MoviesProvider.of(context);
-       bloc.recentData(data);
+       bloc.recentGenreData(data);
      });
 
      Future.delayed(Duration.zero, () async {
        final bloc = MoviesProvider.of(context);
-       bloc.topData(data);
+       bloc.topGenreData(data);
      });
    }
 
@@ -88,7 +88,8 @@ class GenreListState extends State<GenreList> with ScreenLoader<GenreList>{
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                            onTap: (){
+                            onTap: () async{
+                              await this.performFuture(NetworkService.getData);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -102,7 +103,8 @@ class GenreListState extends State<GenreList> with ScreenLoader<GenreList>{
                                   image: DecorationImage(
                                       image: NetworkImage(
                                           snapshot.data[index].image),
-                                      fit: BoxFit.cover)),
+                                      fit: BoxFit.cover)
+                                      ),
                             ),
                           );
                         },
@@ -143,7 +145,8 @@ class GenreListState extends State<GenreList> with ScreenLoader<GenreList>{
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
-                              onTap: (){
+                              onTap: () async{
+                                await this.performFuture(NetworkService.getData);
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -167,6 +170,12 @@ class GenreListState extends State<GenreList> with ScreenLoader<GenreList>{
         ),
       ]),
     );
+  }
+}
+
+class NetworkService {
+  static Future getData() async {
+    return await Future.delayed(Duration(seconds: 3));
   }
 }
 
